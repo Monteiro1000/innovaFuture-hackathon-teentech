@@ -1,102 +1,86 @@
 import React from 'react';
 
 export interface PadraoBlocosProps {
-  variant?: 'barras' | 'cantos' | 'minimal';
+  variant?: 'hero' | 'banner' | 'fundo' | 'barras' | 'cantos' | 'minimal';
   className?: string;
   opacity?: number;
 }
 
 /**
- * Padrão decorativo de blocos retangulares e barras verticais sobrepostos
- * fiel ao Guia de Marca (Páginas 1 e 4 do PDF oficial), para fundos de seção,
- * estados vazios e telas de entrada.
+ * Composição geométrica oficial de blocos e barras verticais sobrepostos
+ * fiel às telas do Lovable e do imagiEdu.
  */
 export const PadraoBlocos: React.FC<PadraoBlocosProps> = ({
-  variant = 'barras',
+  variant = 'banner',
   className = '',
   opacity = 1,
 }) => {
-  if (variant === 'cantos') {
+  // Composição do Hero da Landing Page (Barras arredondadas com triângulo de apoio)
+  if (variant === 'hero') {
     return (
       <svg
-        viewBox="0 0 260 220"
+        viewBox="0 0 320 280"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         style={{ opacity }}
         className={`pointer-events-none select-none ${className}`}
       >
-        <rect x="0" y="0" width="180" height="65" fill="#D9CBE7" fillOpacity="0.85" />
-        <rect x="180" y="0" width="80" height="65" fill="#9847EE" />
-        <rect x="180" y="65" width="80" height="155" fill="#7635C9" />
-        <polygon points="180,220 220,165 260,220" fill="#3F2757" />
+        {/* Triângulo de apoio inferior esquerdo */}
+        <polygon points="34,252 64,200 64,252" fill="#6D4696" />
+        {/* Barra vertical roxa principal */}
+        <rect x="60" y="64" width="64" height="188" rx="10" fill="#9847EE" />
+        {/* Bloco central lilás claro com faixa vertical interna */}
+        <rect x="106" y="114" width="64" height="138" rx="10" fill="#D9CBE7" />
+        <rect x="134" y="114" width="16" height="138" fill="#7D5BA0" />
+        {/* Barra vertical ciano alta */}
+        <rect x="170" y="42" width="44" height="210" rx="10" fill="#3CC7E8" />
+        {/* Bloco direito lilás médio */}
+        <rect x="198" y="138" width="62" height="114" rx="10" fill="#AF81E9" />
       </svg>
     );
   }
 
-  if (variant === 'minimal') {
+  // Composição de fundo suave para a tela /entrar (/demo)
+  if (variant === 'fundo') {
     return (
       <svg
-        viewBox="0 0 320 180"
+        viewBox="0 0 800 520"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         style={{ opacity }}
         className={`pointer-events-none select-none ${className}`}
       >
-        <rect x="40" y="70" width="56" height="110" fill="#3CC7E8" />
-        <rect x="128" y="70" width="60" height="110" fill="#3CC7E8" />
-        <rect x="116" y="0" width="20" height="145" fill="#9847EE" />
-        <rect x="172" y="0" width="44" height="105" fill="#9847EE" />
-        <rect x="235" y="0" width="66" height="125" fill="#9847EE" />
-        <rect x="96" y="38" width="18" height="110" fill="#D9CBE7" />
-        <rect x="136" y="38" width="18" height="110" fill="#D9CBE7" />
-        <rect x="210" y="38" width="18" height="110" fill="#D9CBE7" />
-        <rect x="284" y="38" width="36" height="90" fill="#D9CBE7" />
+        <rect x="160" y="0" width="150" height="120" rx="18" fill="#D9CBE7" fillOpacity="0.45" />
+        <rect x="260" y="95" width="90" height="280" rx="16" fill="#D9CBE7" fillOpacity="0.35" />
+        <rect x="520" y="0" width="190" height="110" rx="18" fill="#3CC7E8" fillOpacity="0.18" />
+        <rect x="490" y="110" width="110" height="260" rx="16" fill="#D9CBE7" fillOpacity="0.28" />
+        <rect x="180" y="340" width="100" height="115" rx="14" fill="#3CC7E8" fillOpacity="0.18" />
       </svg>
     );
   }
 
-  // Variant 'barras' — composição completa inspirada na Capa e Banner do Guia de Marca
+  // Composição dos Banners Internos (Laboratório, Professor, Gestor, Identidade)
   return (
     <svg
-      viewBox="0 0 560 320"
+      viewBox="0 0 280 210"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
       style={{ opacity }}
       className={`pointer-events-none select-none ${className}`}
     >
-      {/* Blocos ciano de base (como no Banner Exemplo pág. 4) */}
-      <rect x="120" y="180" width="76" height="140" fill="#3CC7E8" />
-      <rect x="225" y="180" width="96" height="140" fill="#3CC7E8" />
-
-      {/* Barras roxas superiores (#9847EE) */}
-      <rect x="162" y="0" width="24" height="190" fill="#9847EE" />
-      <rect x="234" y="0" width="24" height="190" fill="#9847EE" />
-      <rect x="272" y="0" width="58" height="180" fill="#9847EE" />
-      <rect x="358" y="0" width="24" height="220" fill="#9847EE" />
-      <rect x="415" y="0" width="84" height="185" fill="#9847EE" />
-      <rect x="518" y="0" width="24" height="220" fill="#9847EE" />
-
-      {/* Barras intermediárias lilás (#AF81E9) */}
-      <rect x="18" y="140" width="22" height="145" fill="#AF81E9" />
-      <rect x="86" y="140" width="22" height="145" fill="#AF81E9" />
-      <rect x="162" y="140" width="24" height="110" fill="#AF81E9" />
-      <rect x="200" y="140" width="22" height="145" fill="#AF81E9" />
-      <rect x="310" y="140" width="48" height="110" fill="#AF81E9" />
-      <rect x="382" y="140" width="22" height="110" fill="#AF81E9" />
-
-      {/* Barras claras (#D9CBE7) */}
-      <rect x="54" y="180" width="22" height="140" fill="#D9CBE7" />
-      <rect x="198" y="95" width="20" height="175" fill="#D9CBE7" />
-      <rect x="256" y="95" width="20" height="175" fill="#D9CBE7" />
-      <rect x="346" y="210" width="20" height="110" fill="#D9CBE7" />
-      <rect x="395" y="75" width="20" height="195" fill="#D9CBE7" />
-      <rect x="488" y="75" width="46" height="170" fill="#D9CBE7" />
-
-      {/* Triângulo de apoio característico da marca */}
-      <polygon points="440,320 495,255 550,320" fill="#3F2757" fillOpacity="0.9" />
+      {/* Bloco roxo vertical à esquerda */}
+      <rect x="35" y="48" width="62" height="136" rx="4" fill="#9847EE" />
+      {/* Barra ciano vertical alta à direita */}
+      <rect x="175" y="22" width="46" height="162" rx="4" fill="#3CC7E8" />
+      {/* Bloco horizontal lilás claro sobreposto */}
+      <rect x="85" y="72" width="88" height="56" rx="4" fill="#D9CBE7" />
+      {/* Bloco lilás médio inferior direito */}
+      <rect x="202" y="110" width="60" height="74" rx="4" fill="#AF81E9" />
+      {/* Triângulo de apoio na base */}
+      <polygon points="45,210 92,162 139,210" fill="#D9CBE7" />
     </svg>
   );
 };

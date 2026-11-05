@@ -7,7 +7,6 @@ import {
   Layers,
   CheckCircle2,
   XCircle,
-  Sparkles,
 } from 'lucide-react';
 import {
   BannerGP,
@@ -17,7 +16,6 @@ import {
   Botao,
   Card,
   Badge,
-  BarraProgresso,
   AlertaAuditor,
 } from '@/components/brand';
 
@@ -31,83 +29,52 @@ interface TokenCor {
 
 const PALETA_OFICIAL: TokenCor[] = [
   {
-    nome: 'Roxo Escuro (Base)',
+    nome: 'Roxo Escuro',
     cssVar: '--gp-roxo-escuro',
     hex: '#3F2757',
-    funcao: 'Fundos principais, textos fortes em fundo claro, header e footer',
+    funcao: 'Fundos principais de destaque, textos fortes, header e footer',
     textoEscuro: false,
   },
   {
-    nome: 'Roxo Guardian (Primária)',
+    nome: 'Roxo Guardian',
     cssVar: '--gp-roxo',
     hex: '#9847EE',
-    funcao: 'Cor primária, botões principais, contorno do ícone e destaques',
+    funcao: 'Primária, botões principais, contorno do ícone e destaques',
     textoEscuro: false,
   },
   {
-    nome: 'Lilás Médio (Secundária)',
+    nome: 'Lilás Médio',
     cssVar: '--gp-lilas',
     hex: '#AF81E9',
-    funcao: 'Secundária, estados de hover, bordas ativas e apoio gráfico',
+    funcao: 'Secundária, estados de hover e bordas ativas',
     textoEscuro: true,
   },
   {
-    nome: 'Lilás Claro (Superfícies)',
+    nome: 'Lilás Claro',
     cssVar: '--gp-lilas-claro',
     hex: '#D9CBE7',
-    funcao: 'Superfícies claras, cards, wordmark em fundo escuro e textos suaves',
+    funcao: 'Superfícies suaves, wordmark em fundo escuro e apoio',
     textoEscuro: true,
   },
   {
-    nome: 'Ciano Vibrante (Acento)',
+    nome: 'Ciano Vibrante',
     cssVar: '--gp-ciano',
     hex: '#3CC7E8',
-    funcao: 'Acento, CTAs secundários, componente <Destaque> em títulos e links',
+    funcao: 'Acento, CTAs secundários e palavras destacadas em títulos',
     textoEscuro: true,
   },
   {
-    nome: 'Branco Puro',
+    nome: 'Branco',
     cssVar: '--gp-branco',
     hex: '#FFFFFF',
-    funcao: 'Títulos principais sobre fundo roxo escuro e alto contraste AA/AAA',
+    funcao: 'Superfícies de cards no modo claro e contraste em fundos escuros',
     textoEscuro: true,
-  },
-];
-
-const CORES_ESTADO: TokenCor[] = [
-  {
-    nome: 'Sucesso (Prompt Seguro)',
-    cssVar: '--gp-sucesso',
-    hex: '#4ADE80',
-    funcao: 'Aprovação no Auditor, badges conquistadas e metas atingidas',
-    textoEscuro: true,
-  },
-  {
-    nome: 'Atenção (Dados Sensíveis)',
-    cssVar: '--gp-atencao',
-    hex: '#FACC15',
-    funcao: 'Alerta educativo de exposição de dados pessoais ou deepfake',
-    textoEscuro: true,
-  },
-  {
-    nome: 'Informativo / Acolhimento',
-    cssVar: '--gp-info',
-    hex: '#3CC7E8',
-    funcao: 'Acolhimento emocional gentil e dicas pedagógicas',
-    textoEscuro: true,
-  },
-  {
-    nome: 'Sugestão (Pensamento Crítico)',
-    cssVar: '--gp-sugestao',
-    hex: '#9847EE',
-    funcao: 'Convite para transformar pedido de trabalho pronto em roteiro',
-    textoEscuro: false,
   },
 ];
 
 export const BrandGuidePage: React.FC = () => {
   const [hexCopiado, setHexCopiado] = useState<string | null>(null);
-  const [tamanhoLogoDemo, setTamanhoLogoDemo] = useState<number>(52);
+  const [tamanhoLogoDemo, setTamanhoLogoDemo] = useState<number>(42);
 
   const copiarHex = (hex: string) => {
     navigator.clipboard?.writeText(hex);
@@ -116,145 +83,107 @@ export const BrandGuidePage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-14">
-      {/* 1. CABEÇALHO DO GUIA DE MARCA */}
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
       <BannerGP
-        tag="Design System Oficial • Rota /identidade"
-        destaque="Guia de marca"
-        titulo="e identidade visual Guardian Prompt"
-        subtitulo="Especificação viva de tokens, logotipia vetorial, tipografia Montserrat, linguagem gráfica de blocos sobrepostos e diretrizes de tom educativo (Hackathon TeenTech 2026)."
+        destaque="Guia de Marca"
+        titulo="Identidade Visual Guardian Prompt"
+        subtitulo="Tokens oficiais, variantes da logo SVG, tipografia Montserrat, componentes e boas práticas de uso."
       />
 
-      {/* 2. LOGOTIPIA EM TODAS AS VARIANTES E TONS */}
-      <section className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div className="space-y-2">
-            <Badge variant="roxo">Seção 01 • Logotipia SVG</Badge>
-            <h2 className="gp-h2 text-gp-branco">
-              Componente <Destaque>&lt;LogoGuardianPrompt /&gt;</Destaque>
+      {/* 1. LOGOS */}
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <Badge variant="roxo">01 • Logotipia Vetorial</Badge>
+            <h2 className="gp-h2 gp-text-primary mt-2">
+              <Destaque>Variantes</Destaque> da Logo
             </h2>
-            <p className="text-sm sm:text-base text-gp-lilas-claro max-w-3xl">
-              Construído em SVG puro: wordmark <strong>Guardian / Prompt</strong> em duas linhas (Montserrat 700) + ícone quadrado de cantos arredondados com entalhe de balão de conversa no canto superior direito e rosto minimalista acolhedor.
-            </p>
           </div>
 
-          <div className="flex items-center gap-3 bg-gp-roxo-escuro p-3 rounded-gp-md border border-gp-lilas/30">
+          <div className="flex items-center gap-3 gp-card-surface px-4 py-2 rounded-xl">
             <label
               htmlFor="slider-logo-size"
-              className="text-xs font-bold text-gp-lilas-claro whitespace-nowrap"
+              className="text-xs font-bold gp-text-secondary"
             >
               Tamanho: {tamanhoLogoDemo}px
             </label>
             <input
               id="slider-logo-size"
               type="range"
-              min={28}
-              max={84}
+              min={26}
+              max={64}
               value={tamanhoLogoDemo}
               onChange={(e) => setTamanhoLogoDemo(Number(e.target.value))}
-              className="accent-gp-ciano cursor-pointer"
+              className="accent-[#9847EE] cursor-pointer"
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Tone: Claro (Fundo Roxo Escuro) */}
-          <Card className="space-y-5 flex flex-col justify-between">
-            <div className="flex items-center justify-between">
-              <Badge variant="ciano">tone=&quot;claro&quot; (Padrão)</Badge>
-              <span className="text-xs text-gp-lilas-claro">Fundo #3F2757</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="rounded-2xl bg-[#3F2757] p-6 space-y-6 flex flex-col items-center justify-center text-white shadow-sm">
+            <LogoGuardianPrompt
+              variant="horizontal"
+              tone="claro"
+              size={tamanhoLogoDemo}
+            />
+            <div className="flex items-center gap-6 pt-4 border-t border-white/10 w-full justify-center">
+              <LogoGuardianPrompt variant="vertical" tone="claro" size={36} />
+              <LogoGuardianPrompt variant="icone" tone="claro" size={36} />
             </div>
-            <div className="space-y-6 py-4 flex flex-col items-center justify-center bg-gp-roxo-escuro rounded-gp-md border border-gp-lilas/30 p-6">
-              <LogoGuardianPrompt
-                variant="horizontal"
-                tone="claro"
-                size={tamanhoLogoDemo}
-              />
-              <div className="flex items-center gap-8 pt-4 border-t border-gp-lilas/20 w-full justify-center">
-                <LogoGuardianPrompt variant="vertical" tone="claro" size={44} />
-                <LogoGuardianPrompt variant="icone" tone="claro" size={44} />
-              </div>
-            </div>
-            <p className="text-xs text-gp-lilas-claro">
-              Wordmark em <code>#D9CBE7</code> e ícone em <code>#9847EE</code>.
-            </p>
-          </Card>
+            <span className="text-xs text-[#D9CBE7]">tone=&quot;claro&quot; (Padrão)</span>
+          </div>
 
-          {/* Tone: Mono (Branco sobre Roxo Escuro — Linha 2 do PDF Guia de Marca) */}
-          <Card className="space-y-5 flex flex-col justify-between">
-            <div className="flex items-center justify-between">
-              <Badge variant="roxo">tone=&quot;mono&quot;</Badge>
-              <span className="text-xs text-gp-lilas-claro">Alto Contraste</span>
+          <div className="rounded-2xl bg-[#3F2757] p-6 space-y-6 flex flex-col items-center justify-center text-white shadow-sm">
+            <LogoGuardianPrompt
+              variant="horizontal"
+              tone="mono"
+              size={tamanhoLogoDemo}
+            />
+            <div className="flex items-center gap-6 pt-4 border-t border-white/10 w-full justify-center">
+              <LogoGuardianPrompt variant="vertical" tone="mono" size={36} />
+              <LogoGuardianPrompt variant="icone" tone="mono" size={36} />
             </div>
-            <div className="space-y-6 py-4 flex flex-col items-center justify-center bg-gp-roxo-escuro rounded-gp-md border border-gp-lilas/30 p-6">
-              <LogoGuardianPrompt
-                variant="horizontal"
-                tone="mono"
-                size={tamanhoLogoDemo}
-              />
-              <div className="flex items-center gap-8 pt-4 border-t border-gp-lilas/20 w-full justify-center">
-                <LogoGuardianPrompt variant="vertical" tone="mono" size={44} />
-                <LogoGuardianPrompt variant="icone" tone="mono" size={44} />
-              </div>
-            </div>
-            <p className="text-xs text-gp-lilas-claro">
-              Wordmark e ícone monocromáticos em <code>#FFFFFF</code>.
-            </p>
-          </Card>
+            <span className="text-xs text-[#D9CBE7]">tone=&quot;mono&quot;</span>
+          </div>
 
-          {/* Tone: Escuro (Sobre Fundo Claro — Linha 3 do PDF Guia de Marca) */}
-          <Card variant="claro" className="space-y-5 flex flex-col justify-between">
-            <div className="flex items-center justify-between">
-              <Badge variant="escuro">tone=&quot;escuro&quot;</Badge>
-              <span className="text-xs font-bold text-gp-roxo-escuro">
-                Fundo Claro #FFFFFF / #D9CBE7
-              </span>
+          <div className="rounded-2xl bg-white border border-[#D9CBE7] p-6 space-y-6 flex flex-col items-center justify-center text-[#3F2757] shadow-sm">
+            <LogoGuardianPrompt
+              variant="horizontal"
+              tone="escuro"
+              size={tamanhoLogoDemo}
+            />
+            <div className="flex items-center gap-6 pt-4 border-t border-[#3F2757]/10 w-full justify-center">
+              <LogoGuardianPrompt variant="vertical" tone="escuro" size={36} />
+              <LogoGuardianPrompt variant="icone" tone="escuro" size={36} />
             </div>
-            <div className="space-y-6 py-4 flex flex-col items-center justify-center bg-gp-branco rounded-gp-md border border-gp-roxo-escuro/20 p-6">
-              <LogoGuardianPrompt
-                variant="horizontal"
-                tone="escuro"
-                size={tamanhoLogoDemo}
-              />
-              <div className="flex items-center gap-8 pt-4 border-t border-gp-roxo-escuro/15 w-full justify-center">
-                <LogoGuardianPrompt variant="vertical" tone="escuro" size={44} />
-                <LogoGuardianPrompt variant="icone" tone="escuro" size={44} />
-              </div>
-            </div>
-            <p className="text-xs font-semibold text-gp-roxo-escuro">
-              Wordmark e ícone em <code>#3F2757</code> para aplicação em superfícies claras.
-            </p>
-          </Card>
+            <span className="text-xs font-semibold text-[#3F2757]">
+              tone=&quot;escuro&quot; (Fundo Claro)
+            </span>
+          </div>
         </div>
       </section>
 
-      {/* 3. PALETA DE CORES COM BOTÃO COPIAR HEX */}
-      <section className="space-y-6">
-        <div className="space-y-2">
+      {/* 2. CORES */}
+      <section className="space-y-4">
+        <div>
           <Badge variant="ciano" icon={<Palette className="w-3.5 h-3.5" />}>
-            Seção 02 • Design Tokens & Cores
+            02 • Paleta Oficial
           </Badge>
-          <h2 className="gp-h2 text-gp-branco">
-            <Destaque>Paleta Oficial</Destaque> (Clique para copiar o HEX)
+          <h2 className="gp-h2 gp-text-primary mt-2">
+            <Destaque>Cores</Destaque> e Tokens (Clique para copiar o HEX)
           </h2>
-          <p className="text-sm sm:text-base text-gp-lilas-claro">
-            Extraída diretamente da página 3 do Guia de Marca (<code>#3F2757</code>, <code>#9847EE</code>, <code>#AF81E9</code>, <code>#D9CBE7</code>, <code>#3CC7E8</code>). Nenhuma cor fora dos tokens é utilizada.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {PALETA_OFICIAL.map((cor) => (
-            <div
-              key={cor.hex}
-              className="rounded-gp-lg overflow-hidden border border-gp-lilas/40 shadow-gp-md bg-gp-roxo-escuro flex flex-col justify-between"
-            >
+            <Card key={cor.hex} padding="none" className="overflow-hidden">
               <div
-                className="h-28 p-5 flex items-end justify-between"
+                className="h-24 p-4 flex items-end justify-between border-b border-black/5"
                 style={{ backgroundColor: cor.hex }}
               >
                 <span
-                  className={`text-2xl font-extrabold tracking-tight ${
-                    cor.textoEscuro ? 'text-gp-roxo-escuro' : 'text-gp-branco'
+                  className={`text-xl font-extrabold ${
+                    cor.textoEscuro ? 'text-[#3F2757]' : 'text-white'
                   }`}
                 >
                   {cor.hex}
@@ -262,16 +191,16 @@ export const BrandGuidePage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => copiarHex(cor.hex)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-gp-sm text-xs font-extrabold gp-transition ${
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold gp-transition ${
                     cor.textoEscuro
-                      ? 'bg-gp-roxo-escuro text-gp-branco hover:bg-gp-roxo'
-                      : 'bg-gp-branco text-gp-roxo-escuro hover:bg-gp-ciano'
+                      ? 'bg-[#3F2757] text-white'
+                      : 'bg-white text-[#3F2757]'
                   }`}
                 >
                   {hexCopiado === cor.hex ? (
                     <>
                       <Check className="w-3.5 h-3.5" />
-                      <span>Copiado!</span>
+                      <span>Copiado</span>
                     </>
                   ) : (
                     <>
@@ -283,229 +212,88 @@ export const BrandGuidePage: React.FC = () => {
               </div>
               <div className="p-4 space-y-1">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-extrabold text-gp-branco text-sm">
+                  <h3 className="text-sm font-extrabold gp-text-primary">
                     {cor.nome}
                   </h3>
-                  <code className="text-xs text-gp-ciano font-mono">
+                  <code className="text-xs text-[#9847EE] dark:text-[#3CC7E8]">
                     {cor.cssVar}
                   </code>
                 </div>
-                <p className="text-xs text-gp-lilas-claro">{cor.funcao}</p>
+                <p className="text-xs gp-text-secondary">{cor.funcao}</p>
               </div>
-            </div>
+            </Card>
           ))}
-        </div>
-
-        {/* Cores de Estado */}
-        <div className="pt-4 space-y-3">
-          <h3 className="text-base font-extrabold text-gp-branco">
-            Cores Semânticas de Estado (Sempre acompanhadas de ícone + rótulo textual)
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {CORES_ESTADO.map((cor) => (
-              <Card key={cor.cssVar} padding="sm" className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span
-                    className="w-6 h-6 rounded-gp-sm border border-gp-branco/30"
-                    style={{ backgroundColor: cor.hex }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => copiarHex(cor.hex)}
-                    className="text-xs font-bold text-gp-ciano hover:underline inline-flex items-center gap-1"
-                  >
-                    {hexCopiado === cor.hex ? 'Copiado!' : cor.hex}
-                    <Copy className="w-3 h-3" />
-                  </button>
-                </div>
-                <h4 className="text-xs font-extrabold text-gp-branco">
-                  {cor.nome}
-                </h4>
-                <p className="text-[11px] text-gp-lilas-claro">{cor.funcao}</p>
-              </Card>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* 4. TIPOGRAFIA MONTSERRAT E COMPONENTE <DESTAQUE> */}
-      <section className="space-y-6">
-        <div className="space-y-2">
+      {/* 3. TIPOGRAFIA E COMPONENTES */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <Card className="space-y-4">
           <Badge variant="lilas" icon={<Type className="w-3.5 h-3.5" />}>
-            Seção 03 • Tipografia & Hierarquia
+            03 • Tipografia Montserrat
           </Badge>
-          <h2 className="gp-h2 text-gp-branco">
-            Família <Destaque>Montserrat</Destaque> (Pesos 400 a 800)
-          </h2>
-        </div>
-
-        <Card className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center border-b border-gp-lilas/25 pb-6">
-            <div className="lg:col-span-4 space-y-1">
-              <span className="text-xs font-extrabold uppercase text-gp-ciano">
-                Display / H1 • clamp(1.85rem, 3.5vw, 3.25rem)
-              </span>
-              <p className="text-xs text-gp-lilas-claro">
-                Montserrat 800 (ExtraBold) com <code>&lt;Destaque&gt;</code> em ciano
-              </p>
-            </div>
-            <div className="lg:col-span-8">
-              <p className="gp-h1 text-gp-branco">
-                <Destaque>IA na escola,</Destaque> com proteção e pensamento crítico.
-              </p>
-            </div>
+          <p className="text-2xl font-extrabold gp-text-primary">
+            <Destaque>IA na escola,</Destaque> com proteção e pensamento crítico.
+          </p>
+          <p className="text-xs sm:text-sm gp-text-secondary leading-relaxed">
+            Títulos em Montserrat 700/800 com escala fluida <code>clamp()</code> e corpo em 400/500 para leitura confortável.
+          </p>
+          <div className="flex flex-wrap gap-2.5 pt-2">
+            <Botao variant="primario" size="sm">
+              Botão Primário
+            </Botao>
+            <Botao variant="secundario" size="sm">
+              Botão Secundário
+            </Botao>
+            <Botao variant="fantasma" size="sm">
+              Botão Fantasma
+            </Botao>
           </div>
+        </Card>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center border-b border-gp-lilas/25 pb-6">
-            <div className="lg:col-span-4 space-y-1">
-              <span className="text-xs font-extrabold uppercase text-gp-ciano">
-                Título de Seção / H2 • Montserrat 800
-              </span>
-              <p className="text-xs text-gp-lilas-claro">
-                clamp(1.45rem, 2.5vw, 2.25rem)
-              </p>
-            </div>
-            <div className="lg:col-span-8">
-              <p className="gp-h2 text-gp-branco">
-                <Destaque>Auditor de Prompts</Destaque> local e educativo
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            <div className="lg:col-span-4 space-y-1">
-              <span className="text-xs font-extrabold uppercase text-gp-ciano">
-                Corpo de Texto • Montserrat 400 / 500
-              </span>
-              <p className="text-xs text-gp-lilas-claro">
-                Leitura acolhedora com contraste AA garantido
-              </p>
-            </div>
-            <div className="lg:col-span-8">
-              <p className="gp-body-lg text-gp-lilas-claro">
-                O estudante interage com um assistente escolar simulado. Antes de qualquer resposta, o filtro local identifica dados sensíveis ou pedidos de plágio e ensina a reformular com autonomia.
-              </p>
-            </div>
+        <Card className="space-y-4">
+          <Badge variant="roxo" icon={<Layers className="w-3.5 h-3.5" />}>
+            04 • Linguagem Gráfica de Blocos
+          </Badge>
+          <div className="rounded-xl bg-[#3F2757] p-4 flex items-center justify-around">
+            <PadraoBlocos variant="hero" className="h-28 w-auto" />
+            <PadraoBlocos variant="banner" className="h-28 w-auto" />
           </div>
         </Card>
       </section>
 
-      {/* 5. COMPONENTES DE MARCA E PADRÃO DE BLOCOS */}
-      <section className="space-y-6">
-        <div className="space-y-2">
-          <Badge variant="roxo" icon={<Layers className="w-3.5 h-3.5" />}>
-            Seção 04 • Biblioteca de Componentes (src/components/brand/*)
-          </Badge>
-          <h2 className="gp-h2 text-gp-branco">
-            <Destaque>Componentes reutilizáveis</Destaque> e Padrão de Blocos
-          </h2>
-        </div>
+      {/* 4. ALERTA AUDITOR & USO CORRETO VS INCORRETO */}
+      <section className="space-y-5">
+        <AlertaAuditor
+          tipo="dados"
+          titulo="Exemplo de Alerta Educativo do Auditor"
+          mensagem="Você mencionou seu nome completo e o bairro da sua escola. Veja como reformular sem se expor."
+          trechosDestacados={['Maria Souza', 'Escola X', 'bairro Y']}
+          descontoPontos={35}
+        />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Botões e Badges */}
-          <Card className="space-y-5">
-            <h3 className="text-base font-extrabold text-gp-branco">
-              Botões (<code>&lt;Botao /&gt;</code>) e Badges (<code>&lt;Badge /&gt;</code>)
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              <Botao variant="primario">Primário (#9847EE)</Botao>
-              <Botao variant="secundario">Secundário (#3CC7E8)</Botao>
-              <Botao variant="fantasma">Fantasma</Botao>
-              <Botao variant="perigo">Atenção / Alerta</Botao>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <Card className="border-l-4 border-l-emerald-500 space-y-2.5">
+            <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-extrabold text-sm">
+              <CheckCircle2 className="w-5 h-5" />
+              <span>Uso Correto</span>
             </div>
-            <div className="flex flex-wrap gap-2 pt-2 border-t border-gp-lilas/25">
-              <Badge variant="roxo">Sugestão Roxo</Badge>
-              <Badge variant="ciano">Informativo Ciano</Badge>
-              <Badge variant="sucesso">Sucesso #4ADE80</Badge>
-              <Badge variant="atencao">Atenção #FACC15</Badge>
-              <Badge variant="lilas">Superfície Lilás</Badge>
-            </div>
-          </Card>
-
-          {/* Padrão de Blocos SVG */}
-          <Card className="space-y-4">
-            <h3 className="text-base font-extrabold text-gp-branco">
-              Padrão Geométrico (<code>&lt;PadraoBlocos /&gt;</code>)
-            </h3>
-            <p className="text-xs text-gp-lilas-claro">
-              Composição vetorial de retângulos e barras verticais sobrepostos com triângulo de apoio:
-            </p>
-            <div className="rounded-gp-md overflow-hidden bg-gp-roxo-escuro border border-gp-lilas/30 p-3 flex justify-center">
-              <PadraoBlocos variant="barras" className="h-36 w-auto" />
-            </div>
-          </Card>
-        </div>
-
-        {/* Showcase AlertaAuditor */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <AlertaAuditor
-            tipo="dados"
-            titulo="Exemplo de Alerta de Dados Sensíveis"
-            mensagem="Você mencionou seu nome completo e o bairro da sua escola. Veja como reformular sem se expor."
-            trechosDestacados={['Maria Souza', 'Escola X', 'bairro Y']}
-            descontoPontos={35}
-          />
-          <AlertaAuditor
-            tipo="sucesso"
-            titulo="Exemplo de Feedback Positivo (Prompt Seguro)"
-            mensagem="Excelente! Você formulou sua dúvida sem expor informações pessoais e pediu um roteiro estruturado de estudo."
-          />
-        </div>
-      </section>
-
-      {/* 6. EXEMPLOS DE USO CORRETO E INCORRETO */}
-      <section className="space-y-6">
-        <div className="space-y-2">
-          <Badge variant="sucesso" icon={<Sparkles className="w-3.5 h-3.5" />}>
-            Seção 05 • Boas Práticas Visuais e Pedagógicas
-          </Badge>
-          <h2 className="gp-h2 text-gp-branco">
-            Exemplos de <Destaque>uso correto e incorreto</Destaque>
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Uso Correto */}
-          <Card className="border-2 border-gp-sucesso space-y-4">
-            <div className="flex items-center gap-2 text-gp-sucesso font-extrabold text-base">
-              <CheckCircle2 className="w-6 h-6 shrink-0" />
-              <span>USO CORRETO (Fiel ao Guardian Prompt)</span>
-            </div>
-            <ul className="space-y-2.5 text-xs sm:text-sm text-gp-lilas-claro">
-              <li>
-                • <strong>Tom educativo e acolhedor:</strong> explicar por que o dado é sensível e oferecer um botão imediato para reformular sem punir o estudante.
-              </li>
-              <li>
-                • <strong>Privacidade absoluta nos painéis:</strong> exibir apenas métricas agregadas da turma (ex.: <em>&ldquo;80% da turma aprendeu a não expor dados de geolocalização&rdquo;</em>).
-              </li>
-              <li>
-                • <strong>Fidelidade aos tokens:</strong> usar sempre o fundo <code>#3F2757</code> com destaques em <code>#3CC7E8</code> e <code>#9847EE</code>, garantindo contraste mínimo AA.
-              </li>
-              <li>
-                • <strong>Acessibilidade:</strong> combinar cor de estado + ícone Lucide + rótulo em texto.
-              </li>
+            <ul className="space-y-1.5 text-xs sm:text-sm gp-text-secondary">
+              <li>• Feedback sempre educativo, acolhedor e nunca punitivo.</li>
+              <li>• Métricas docentes 100% agregadas e anônimas (LGPD).</li>
+              <li>• Superfícies leves com bordas sutis e sombras suaves.</li>
             </ul>
           </Card>
 
-          {/* Uso Incorreto */}
-          <Card className="border-2 border-gp-atencao space-y-4">
-            <div className="flex items-center gap-2 text-gp-atencao font-extrabold text-base">
-              <XCircle className="w-6 h-6 shrink-0" />
-              <span>USO INCORRETO (Evitar sempre)</span>
+          <Card className="border-l-4 border-l-amber-500 space-y-2.5">
+            <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-extrabold text-sm">
+              <XCircle className="w-5 h-5" />
+              <span>Uso Incorreto</span>
             </div>
-            <ul className="space-y-2.5 text-xs sm:text-sm text-gp-lilas-claro">
-              <li>
-                • <strong>Tom punitivo ou assustador:</strong> nunca usar mensagens como <em>&ldquo;PROIBIDO! Você cometeu uma infração e será bloqueado!&rdquo;</em>.
-              </li>
-              <li>
-                • <strong>Quebra de sigilo / LGPD:</strong> nunca listar nomes de alunos ou exibir o histórico individual de desabafos no Painel do Professor.
-              </li>
-              <li>
-                • <strong>Cores fora da paleta:</strong> nunca usar vermelho alarmista puro ou fundos sem contraste adequado para a logo.
-              </li>
-              <li>
-                • <strong>Imagens de pessoas reais em deepfakes:</strong> usar apenas descrições textuais e ilustrações vetoriais educativas.
-              </li>
+            <ul className="space-y-1.5 text-xs sm:text-sm gp-text-secondary">
+              <li>• Nunca bloquear o aluno com mensagens assustadoras ou punitivas.</li>
+              <li>• Nunca exibir nomes ou prompts individuais nos painéis de gestão.</li>
+              <li>• Nunca usar contornos pesados ou cores fora dos tokens da marca.</li>
             </ul>
           </Card>
         </div>

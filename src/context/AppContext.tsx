@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export type PerfilUsuario = 'visitante' | 'aluno' | 'professor' | 'gestor';
 export type FaixaEtaria = 'fundamental' | 'medio';
-export type TemaMarca = 'dark' | 'light';
+export type TemaMarca = 'light' | 'dark';
 
 export interface BadgeConquista {
   id: string;
@@ -25,9 +25,11 @@ export interface TurmaEscolar {
   taxaProtecaoGeolocalizacao: number;
   plagiosEvitados: number;
   dadosSensiveisProtegidos: number;
+  modulosConcluidosPct: number;
   modulosAtribuidos: string[];
   moduloMaisDificil: string;
   evolucaoSemanal: { semana: string; placar: number }[];
+  aprendizagensPorTema: { tema: string; percentual: number }[];
 }
 
 interface AppState {
@@ -64,19 +66,35 @@ interface AppContextType extends AppState {
   ultimoEventoXP: string | null;
 }
 
-const STORAGE_KEY = 'guardian_prompt_demo_v1';
+const STORAGE_KEY = 'guardian_prompt_demo_v2';
 
 const INITIAL_BADGES: BadgeConquista[] = [
   {
-    id: 'guardiao-dados',
-    titulo: 'Guardião dos Dados',
-    descricao: 'Reformulou um prompt protegendo nome completo, escola e localização.',
+    id: 'primeiro-prompt-seguro',
+    titulo: 'Primeiro prompt seguro',
+    descricao: 'Enviou um comando formativo sem expor informações pessoais.',
     icone: 'ShieldCheck',
+    desbloqueada: true,
+    dataConquista: 'Hoje',
+  },
+  {
+    id: 'checador-fontes',
+    titulo: 'Olho de fonte',
+    descricao: 'Verificou autoria, data e referências antes de confiar em uma informação.',
+    icone: 'SearchCheck',
+    desbloqueada: true,
+    dataConquista: 'Hoje',
+  },
+  {
+    id: 'guardiao-dados',
+    titulo: 'Guardião de dados',
+    descricao: 'Reformulou um prompt protegendo nome completo, escola e localização.',
+    icone: 'Lock',
     desbloqueada: false,
   },
   {
     id: 'pensador-critico',
-    titulo: 'Mente Autônoma',
+    titulo: 'Mente autônoma',
     descricao: 'Transformou um pedido de trabalho pronto em roteiro de pesquisa própria.',
     icone: 'BrainCircuit',
     desbloqueada: false,
@@ -88,106 +106,136 @@ const INITIAL_BADGES: BadgeConquista[] = [
     icone: 'Eye',
     desbloqueada: false,
   },
-  {
-    id: 'checador-fontes',
-    titulo: 'Detetive de Fontes',
-    descricao: 'Verificou autoria, data e referências antes de compartilhar informações.',
-    icone: 'SearchCheck',
-    desbloqueada: false,
-  },
-  {
-    id: 'cidadao-digital',
-    titulo: 'Defensor LGPD & ECA',
-    descricao: 'Dominou os direitos e deveres do Marco Civil da Internet, ECA e LGPD.',
-    icone: 'Scale',
-    desbloqueada: false,
-  },
 ];
 
 const INITIAL_TURMAS: TurmaEscolar[] = [
   {
-    id: 'turma-8a',
-    nome: 'Turma 8º Ano A — Ciências & Tecnologia',
+    id: 'turma-8b',
+    nome: '8º ano B • Ciências',
     serie: '8º Ano (Ensino Fundamental II)',
     faixa: 'fundamental',
-    codigoConvite: 'GP-8A-2026',
-    totalAlunosAnonimos: 32,
-    adesaoPercentual: 94,
-    placarSegurancaMedio: 86,
+    codigoConvite: 'GP-8B-2026',
+    totalAlunosAnonimos: 24,
+    adesaoPercentual: 75,
+    placarSegurancaMedio: 81,
     taxaProtecaoGeolocalizacao: 80,
-    plagiosEvitados: 47,
-    dadosSensiveisProtegidos: 63,
+    plagiosEvitados: 15,
+    dadosSensiveisProtegidos: 29,
+    modulosConcluidosPct: 72,
     modulosAtribuidos: [
       'Ciclo da Água (Laboratório de Prompts)',
       'Vazamento de Dados: Onde está o risco?',
       'Deepfake ou Real?',
     ],
-    moduloMaisDificil: 'Identificação de Deepfakes em Áudio',
+    moduloMaisDificil: 'Identificação de Deepfakes',
     evolucaoSemanal: [
-      { semana: 'Sem 1', placar: 52 },
-      { semana: 'Sem 2', placar: 64 },
-      { semana: 'Sem 3', placar: 73 },
-      { semana: 'Sem 4', placar: 81 },
-      { semana: 'Sem 5', placar: 86 },
+      { semana: 'S1', placar: 62 },
+      { semana: 'S2', placar: 69 },
+      { semana: 'S3', placar: 74 },
+      { semana: 'S4', placar: 81 },
+    ],
+    aprendizagensPorTema: [
+      { tema: 'Privacidade', percentual: 82 },
+      { tema: 'Fontes', percentual: 66 },
+      { tema: 'Deepfake', percentual: 58 },
     ],
   },
   {
-    id: 'turma-2m',
-    nome: 'Turma 2ª Série B — Redação & Pesquisa Científica',
-    serie: '2ª Série (Ensino Médio)',
-    faixa: 'medio',
-    codigoConvite: 'GP-2B-2026',
-    totalAlunosAnonimos: 35,
-    adesaoPercentual: 89,
-    placarSegurancaMedio: 88,
-    taxaProtecaoGeolocalizacao: 85,
-    plagiosEvitados: 58,
-    dadosSensiveisProtegidos: 51,
-    modulosAtribuidos: [
-      'Ética Digital e Redação (Laboratório)',
-      'Verificação de Fontes e Alucinações de IA',
-      'Cidadania Digital: LGPD, ECA e Marco Civil',
-    ],
-    moduloMaisDificil: 'Checagem Cruzada de Referências Acadêmicas',
-    evolucaoSemanal: [
-      { semana: 'Sem 1', placar: 58 },
-      { semana: 'Sem 2', placar: 69 },
-      { semana: 'Sem 3', placar: 77 },
-      { semana: 'Sem 4', placar: 84 },
-      { semana: 'Sem 5', placar: 88 },
-    ],
-  },
-  {
-    id: 'turma-6c',
-    nome: 'Turma 6º Ano C — Primeiros Passos Digitais',
-    serie: '6º Ano (Ensino Fundamental II)',
+    id: 'turma-9a',
+    nome: '9º ano A • Geografia',
+    serie: '9º Ano (Ensino Fundamental II)',
     faixa: 'fundamental',
-    codigoConvite: 'GP-6C-2026',
+    codigoConvite: 'GP-9A-2026',
     totalAlunosAnonimos: 28,
-    adesaoPercentual: 96,
-    placarSegurancaMedio: 82,
-    taxaProtecaoGeolocalizacao: 79,
-    plagiosEvitados: 34,
-    dadosSensiveisProtegidos: 59,
+    adesaoPercentual: 88,
+    placarSegurancaMedio: 84,
+    taxaProtecaoGeolocalizacao: 84,
+    plagiosEvitados: 21,
+    dadosSensiveisProtegidos: 34,
+    modulosConcluidosPct: 79,
     modulosAtribuidos: [
       'Ecossistemas Brasileiros (Laboratório)',
+      'Verificação de Fontes',
+    ],
+    moduloMaisDificil: 'Verificação Cruzada de Fontes',
+    evolucaoSemanal: [
+      { semana: 'S1', placar: 64 },
+      { semana: 'S2', placar: 71 },
+      { semana: 'S3', placar: 78 },
+      { semana: 'S4', placar: 84 },
+    ],
+    aprendizagensPorTema: [
+      { tema: 'Privacidade', percentual: 85 },
+      { tema: 'Fontes', percentual: 72 },
+      { tema: 'Deepfake', percentual: 64 },
+    ],
+  },
+  {
+    id: 'turma-1m',
+    nome: '1ª série A • Redação & IA',
+    serie: '1ª Série (Ensino Médio)',
+    faixa: 'medio',
+    codigoConvite: 'GP-1A-2026',
+    totalAlunosAnonimos: 32,
+    adesaoPercentual: 91,
+    placarSegurancaMedio: 86,
+    taxaProtecaoGeolocalizacao: 88,
+    plagiosEvitados: 27,
+    dadosSensiveisProtegidos: 41,
+    modulosConcluidosPct: 84,
+    modulosAtribuidos: [
+      'Ética Digital e Redação (Laboratório)',
+      'Cidadania Digital: LGPD, ECA e Marco Civil',
+    ],
+    moduloMaisDificil: 'Alucinações Bibliográficas em IA',
+    evolucaoSemanal: [
+      { semana: 'S1', placar: 68 },
+      { semana: 'S2', placar: 74 },
+      { semana: 'S3', placar: 81 },
+      { semana: 'S4', placar: 86 },
+    ],
+    aprendizagensPorTema: [
+      { tema: 'Privacidade', percentual: 88 },
+      { tema: 'Fontes', percentual: 76 },
+      { tema: 'Deepfake', percentual: 70 },
+    ],
+  },
+  {
+    id: 'turma-7c',
+    nome: '7º ano C • Cidadania Digital',
+    serie: '7º Ano (Ensino Fundamental II)',
+    faixa: 'fundamental',
+    codigoConvite: 'GP-7C-2026',
+    totalAlunosAnonimos: 26,
+    adesaoPercentual: 82,
+    placarSegurancaMedio: 77,
+    taxaProtecaoGeolocalizacao: 79,
+    plagiosEvitados: 12,
+    dadosSensiveisProtegidos: 22,
+    modulosConcluidosPct: 68,
+    modulosAtribuidos: [
+      'Ciclo da Água (Laboratório de Prompts)',
       'Protegendo Minha Rotina e Endereço',
     ],
-    moduloMaisDificil: 'Diferenciar Opinião de Fato Verificável',
+    moduloMaisDificil: 'Identificação de Deepfakes',
     evolucaoSemanal: [
-      { semana: 'Sem 1', placar: 48 },
-      { semana: 'Sem 2', placar: 59 },
-      { semana: 'Sem 3', placar: 68 },
-      { semana: 'Sem 4', placar: 76 },
-      { semana: 'Sem 5', placar: 82 },
+      { semana: 'S1', placar: 58 },
+      { semana: 'S2', placar: 65 },
+      { semana: 'S3', placar: 71 },
+      { semana: 'S4', placar: 77 },
+    ],
+    aprendizagensPorTema: [
+      { tema: 'Privacidade', percentual: 79 },
+      { tema: 'Fontes', percentual: 62 },
+      { tema: 'Deepfake', percentual: 55 },
     ],
   },
 ];
 
 const DEFAULT_STATE: AppState = {
   perfil: 'visitante',
-  faixaEtaria: 'fundamental',
-  tema: 'dark',
+  faixaEtaria: 'medio',
+  tema: 'light', // Modo claro por padrão conforme solicitado!
   xp: 240,
   streak: 5,
   promptsSegurosCount: 4,
@@ -209,7 +257,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return { ...DEFAULT_STATE, ...parsed };
       }
     } catch {
-      // Caso o localStorage esteja indisponível, usa estado padrão em memória
+      // fallback
     }
     return DEFAULT_STATE;
   });
@@ -220,18 +268,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch {
-      // Ignora erro de cota em ambientes restritos
+      // ignore
     }
   }, [state]);
 
   useEffect(() => {
     const root = document.documentElement;
-    if (state.tema === 'light') {
+    if (state.tema === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
       root.classList.remove('dark');
       root.classList.add('light');
-    } else {
-      root.classList.remove('light');
-      root.classList.add('dark');
     }
   }, [state.tema]);
 
@@ -246,7 +294,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const toggleTema = () => {
     setState((prev) => ({
       ...prev,
-      tema: prev.tema === 'dark' ? 'light' : 'dark',
+      tema: prev.tema === 'light' ? 'dark' : 'light',
     }));
   };
 
@@ -259,7 +307,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setUltimoEventoXP(`+${pontos} XP • ${motivo}`);
       setTimeout(() => {
         setUltimoEventoXP(null);
-      }, 4000);
+      }, 3800);
     }
   };
 
@@ -305,8 +353,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         badges: novasBadges,
       };
     });
-    setUltimoEventoXP(`+${xpGanho} XP • Fase concluída com sucesso!`);
-    setTimeout(() => setUltimoEventoXP(null), 4000);
+    setUltimoEventoXP(`+${xpGanho} XP • Conquista desbloqueada!`);
+    setTimeout(() => setUltimoEventoXP(null), 3800);
   };
 
   const registrarAuditoriaAluno = (
@@ -341,22 +389,28 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       serie: novaTurma.serie,
       faixa: novaTurma.faixa,
       codigoConvite: `GP-${sufixo}-2026`,
-      totalAlunosAnonimos: 30,
-      adesaoPercentual: 90,
-      placarSegurancaMedio: 84,
+      totalAlunosAnonimos: 26,
+      adesaoPercentual: 85,
+      placarSegurancaMedio: 82,
       taxaProtecaoGeolocalizacao: 80,
-      plagiosEvitados: 19,
-      dadosSensiveisProtegidos: 27,
+      plagiosEvitados: 14,
+      dadosSensiveisProtegidos: 22,
+      modulosConcluidosPct: 74,
       modulosAtribuidos:
         novaTurma.modulosAtribuidos.length > 0
           ? novaTurma.modulosAtribuidos
           : ['Ciclo da Água (Laboratório de Prompts)', 'Vazamento de Dados'],
       moduloMaisDificil: 'Identificação de Deepfakes',
       evolucaoSemanal: [
-        { semana: 'Sem 1', placar: 54 },
-        { semana: 'Sem 2', placar: 66 },
-        { semana: 'Sem 3', placar: 75 },
-        { semana: 'Sem 4', placar: 84 },
+        { semana: 'S1', placar: 60 },
+        { semana: 'S2', placar: 68 },
+        { semana: 'S3', placar: 75 },
+        { semana: 'S4', placar: 82 },
+      ],
+      aprendizagensPorTema: [
+        { tema: 'Privacidade', percentual: 83 },
+        { tema: 'Fontes', percentual: 68 },
+        { tema: 'Deepfake', percentual: 60 },
       ],
     };
 
@@ -384,7 +438,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setState(DEFAULT_STATE);
   };
 
-  const nivelCalculado = Math.floor(state.xp / 100) + 1;
+  const nivelCalculado = Math.floor(state.xp / 80);
 
   return (
     <AppContext.Provider

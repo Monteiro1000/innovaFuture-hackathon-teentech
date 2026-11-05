@@ -9,11 +9,11 @@ export interface BotaoProps extends React.ButtonHTMLAttributes<HTMLButtonElement
 }
 
 /**
- * Componente <Botao /> com variantes oficiais da marca:
+ * Componente <Botao /> com acabamento polido e sem bordas pesadas:
  * - primario: #9847EE (roxo), hover #AF81E9
- * - secundario: #3CC7E8 (ciano) com texto #3F2757 (alto contraste AA/AAA)
- * - fantasma: borda #AF81E9, fundo translúcido
- * - perigo: alerta com borda e ícone educativo
+ * - secundario: #3CC7E8 (ciano) com texto #3F2757
+ * - fantasma: adaptável ao modo claro e escuro com borda sutil 1px
+ * - perigo: alerta educativo suave
  */
 export const Botao: React.FC<BotaoProps> = ({
   variant = 'primario',
@@ -27,23 +27,23 @@ export const Botao: React.FC<BotaoProps> = ({
   ...props
 }) => {
   const baseClasses =
-    'inline-flex items-center justify-center gap-2 font-montserrat font-bold rounded-gp-md gp-transition focus:outline-none focus-visible:ring-2 focus-visible:ring-gp-ciano focus-visible:ring-offset-2 focus-visible:ring-offset-gp-roxo-escuro disabled:opacity-50 disabled:pointer-events-none select-none active:scale-[0.98]';
+    'inline-flex items-center justify-center gap-2 font-montserrat font-semibold rounded-xl gp-transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3CC7E8] focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none active:scale-[0.99]';
 
   const variantClasses: Record<NonNullable<BotaoProps['variant']>, string> = {
     primario:
-      'bg-gp-roxo text-gp-branco hover:bg-gp-lilas hover:text-gp-roxo-escuro shadow-gp-roxo-glow border border-gp-lilas/40',
+      'bg-[#9847EE] text-white hover:bg-[#8636DC] shadow-sm',
     secundario:
-      'bg-gp-ciano text-gp-roxo-escuro hover:bg-gp-lilas-claro hover:text-gp-roxo-escuro shadow-gp-glow border border-gp-ciano',
+      'bg-[#3CC7E8] text-[#3F2757] font-bold hover:bg-[#2EB5D6] shadow-sm',
     fantasma:
-      'bg-gp-lilas-claro/10 text-gp-branco hover:bg-gp-lilas-claro/20 border border-gp-lilas/50 hover:border-gp-ciano',
+      'gp-card-surface hover:border-[#9847EE] gp-text-primary',
     perigo:
-      'bg-gp-atencao/20 text-gp-atencao hover:bg-gp-atencao hover:text-gp-roxo-escuro border border-gp-atencao/60',
+      'bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 hover:bg-amber-500/25',
   };
 
   const sizeClasses: Record<NonNullable<BotaoProps['size']>, string> = {
     sm: 'px-3.5 py-2 text-xs sm:text-sm',
-    md: 'px-5 py-2.5 text-sm sm:text-base',
-    lg: 'px-7 py-3.5 text-base sm:text-lg',
+    md: 'px-5 py-2.5 text-sm',
+    lg: 'px-6 py-3 text-sm sm:text-base',
   };
 
   return (

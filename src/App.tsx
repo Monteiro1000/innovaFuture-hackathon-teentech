@@ -28,13 +28,13 @@ export const App: React.FC = () => {
     <AppProvider>
       <BrowserRouter>
         <ScrollToTop />
-        <div className="min-h-screen flex flex-col bg-gp-roxo-escuro text-gp-branco">
+        <div className="min-h-screen flex flex-col gp-page-surface">
           <Header />
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/entrar" element={<DemoEntryPage />} />
-              <Route path="/demo" element={<Navigate to="/entrar" replace />} />
+              <Route path="/demo" element={<DemoEntryPage />} />
               <Route path="/aluno" element={<StudentPage />} />
               <Route path="/professor" element={<TeacherDashboardPage />} />
               <Route path="/gestor" element={<ManagerDashboardPage />} />

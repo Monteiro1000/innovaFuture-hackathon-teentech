@@ -9,10 +9,14 @@ import {
 } from 'lucide-react';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'claro' | 'destaque' | 'ciano';
+  variant?: 'default' | 'claro' | 'destaque' | 'ciano' | 'escuro';
   padding?: 'sm' | 'md' | 'lg' | 'none';
 }
 
+/**
+ * Componente <Card /> com bordas sutis de 1px e sombra suave,
+ * funcionando perfeitamente no Modo Claro (padrão) e no Modo Escuro.
+ */
 export const Card: React.FC<CardProps> = ({
   variant = 'default',
   padding = 'md',
@@ -21,14 +25,15 @@ export const Card: React.FC<CardProps> = ({
   ...props
 }) => {
   const variantClasses: Record<NonNullable<CardProps['variant']>, string> = {
-    default:
-      'bg-gp-roxo-escuro/85 backdrop-blur-md border border-gp-lilas/30 text-gp-branco shadow-gp-md',
+    default: 'gp-card-surface',
     claro:
-      'bg-gp-lilas-claro text-gp-roxo-escuro border border-gp-lilas/50 shadow-gp-md',
+      'bg-[#F3EDF9] dark:bg-[#342049] text-[#3F2757] dark:text-white border border-[#D9CBE7] dark:border-[#AF81E9]/30',
     destaque:
-      'bg-gradient-to-br from-gp-roxo/25 via-gp-roxo-escuro to-gp-roxo-escuro border-2 border-gp-roxo text-gp-branco shadow-gp-lg',
+      'gp-card-surface border-[#3CC7E8]/70 ring-1 ring-[#3CC7E8]/30',
     ciano:
-      'bg-gradient-to-br from-gp-ciano/20 via-gp-roxo-escuro to-gp-roxo-escuro border-2 border-gp-ciano/70 text-gp-branco shadow-gp-md',
+      'bg-[#BCEFF9]/65 dark:bg-[#3CC7E8]/15 text-[#3F2757] dark:text-white border border-[#3CC7E8]/50',
+    escuro:
+      'bg-[#3F2757] text-white border border-[#AF81E9]/25 shadow-gp-md',
   };
 
   const paddingClasses: Record<NonNullable<CardProps['padding']>, string> = {
@@ -40,7 +45,7 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <div
-      className={`rounded-gp-lg gp-transition ${variantClasses[variant]} ${paddingClasses[padding]} ${className}`}
+      className={`rounded-2xl gp-transition ${variantClasses[variant]} ${paddingClasses[padding]} ${className}`}
       {...props}
     >
       {children}
@@ -62,12 +67,16 @@ export const Badge: React.FC<BadgeProps> = ({
   className = '',
 }) => {
   const variantClasses: Record<NonNullable<BadgeProps['variant']>, string> = {
-    roxo: 'bg-gp-roxo/25 text-gp-lilas-claro border border-gp-roxo',
-    ciano: 'bg-gp-ciano/20 text-gp-ciano border border-gp-ciano/60',
-    lilas: 'bg-gp-lilas-claro text-gp-roxo-escuro border border-gp-lilas',
-    sucesso: 'bg-gp-sucesso/20 text-gp-sucesso border border-gp-sucesso/60',
-    atencao: 'bg-gp-atencao/20 text-gp-atencao border border-gp-atencao/60',
-    escuro: 'bg-gp-roxo-escuro text-gp-lilas-claro border border-gp-lilas/40',
+    roxo: 'bg-[#9847EE]/12 text-[#7B2CBF] dark:bg-[#9847EE]/25 dark:text-[#D9CBE7] border border-[#9847EE]/25',
+    ciano:
+      'bg-[#3CC7E8]/15 text-[#0E7490] dark:bg-[#3CC7E8]/20 dark:text-[#3CC7E8] border border-[#3CC7E8]/35',
+    lilas:
+      'bg-[#D9CBE7]/65 text-[#3F2757] dark:bg-[#AF81E9]/20 dark:text-[#D9CBE7] border border-[#AF81E9]/30',
+    sucesso:
+      'bg-emerald-500/12 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300 border border-emerald-500/30',
+    atencao:
+      'bg-amber-500/15 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 border border-amber-500/30',
+    escuro: 'bg-[#3F2757] text-[#D9CBE7] border border-[#AF81E9]/30',
   };
 
   const defaultIcons: Record<NonNullable<BadgeProps['variant']>, React.ReactNode> = {
@@ -81,7 +90,7 @@ export const Badge: React.FC<BadgeProps> = ({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-gp-sm text-xs font-bold tracking-wide ${variantClasses[variant]} ${className}`}
+      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide ${variantClasses[variant]} ${className}`}
     >
       {icon !== undefined ? icon : defaultIcons[variant]}
       <span>{children}</span>
@@ -96,13 +105,10 @@ export interface BarraProgressoProps {
   sublabel?: string;
   tipo?: 'seguranca' | 'xp' | 'padrao';
   mostrarValor?: boolean;
+  tone?: 'auto' | 'escuro';
   className?: string;
 }
 
-/**
- * BarraProgresso para o Placar de Segurança (0 a 100) e progresso de XP.
- * Sempre acompanha ícone e rótulo textual do estado (acessibilidade AA).
- */
 export const BarraProgresso: React.FC<BarraProgressoProps> = ({
   valor,
   maximo = 100,
@@ -110,57 +116,60 @@ export const BarraProgresso: React.FC<BarraProgressoProps> = ({
   sublabel,
   tipo = 'seguranca',
   mostrarValor = true,
+  tone = 'auto',
   className = '',
 }) => {
   const percentual = Math.max(0, Math.min(100, Math.round((valor / maximo) * 100)));
 
-  let barColorClass = 'bg-gp-roxo';
+  let barColorClass = 'bg-[#9847EE]';
   let statusText = 'Progresso';
-  let statusIcon = <Sparkles className="w-4 h-4 text-gp-ciano" />;
+  let statusIcon = <Sparkles className="w-4 h-4 text-[#3CC7E8]" />;
 
   if (tipo === 'seguranca') {
     if (percentual >= 85) {
-      barColorClass = 'bg-gp-sucesso';
+      barColorClass = 'bg-emerald-500';
       statusText = 'Prompt Seguro';
-      statusIcon = <CheckCircle2 className="w-4 h-4 text-gp-sucesso" />;
+      statusIcon = <CheckCircle2 className="w-4 h-4 text-emerald-500" />;
     } else if (percentual >= 50) {
-      barColorClass = 'bg-gp-atencao';
-      statusText = 'Atenção: Ajustes Recomendados';
-      statusIcon = <AlertTriangle className="w-4 h-4 text-gp-atencao" />;
+      barColorClass = 'bg-amber-500';
+      statusText = 'Ajustes Recomendados';
+      statusIcon = <AlertTriangle className="w-4 h-4 text-amber-500" />;
     } else {
-      barColorClass = 'bg-gp-atencao';
-      statusText = 'Risco de Exposição ou Atalho';
-      statusIcon = <AlertTriangle className="w-4 h-4 text-gp-atencao" />;
+      barColorClass = 'bg-amber-500';
+      statusText = 'Atenção Educativa';
+      statusIcon = <AlertTriangle className="w-4 h-4 text-amber-500" />;
     }
   } else if (tipo === 'xp') {
-    barColorClass = 'bg-gradient-to-r from-gp-roxo via-gp-lilas to-gp-ciano';
+    barColorClass = 'bg-[#3CC7E8]';
     statusText = 'Experiência (XP)';
-    statusIcon = <Zap className="w-4 h-4 text-gp-ciano" />;
+    statusIcon = <Zap className="w-4 h-4 text-[#3CC7E8]" />;
   }
 
+  const labelColor =
+    tone === 'escuro' ? 'text-white' : 'gp-text-primary';
+
   return (
-    <div className={`w-full space-y-2 ${className}`}>
-      <div className="flex items-center justify-between gap-2 text-xs sm:text-sm">
-        <div className="flex items-center gap-2 font-bold text-gp-branco">
-          {statusIcon}
-          <span>{label || statusText}</span>
-        </div>
-        {mostrarValor && (
-          <div className="flex items-center gap-2">
-            {tipo === 'seguranca' && (
-              <span className="text-xs text-gp-lilas-claro hidden sm:inline">
-                {statusText}
-              </span>
-            )}
-            <span className="font-extrabold px-2.5 py-0.5 rounded-gp-sm bg-gp-roxo-escuro border border-gp-lilas/40 text-gp-ciano">
+    <div className={`w-full space-y-1.5 ${className}`}>
+      {(label || mostrarValor) && (
+        <div className="flex items-center justify-between gap-2 text-xs sm:text-sm">
+          <div className={`flex items-center gap-1.5 font-bold ${labelColor}`}>
+            {statusIcon}
+            <span>{label || statusText}</span>
+          </div>
+          {mostrarValor && (
+            <span className="font-bold text-xs px-2.5 py-0.5 rounded-full bg-[#9847EE]/15 text-[#9847EE] dark:text-[#3CC7E8]">
               {valor}/{maximo}
             </span>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       <div
-        className="w-full h-3.5 rounded-gp-sm bg-gp-roxo-escuro/90 border border-gp-lilas/40 overflow-hidden p-0.5"
+        className={`w-full h-2.5 rounded-full overflow-hidden ${
+          tone === 'escuro'
+            ? 'bg-white/15'
+            : 'bg-[#D9CBE7]/60 dark:bg-white/15'
+        }`}
         role="progressbar"
         aria-valuenow={valor}
         aria-valuemin={0}
@@ -168,13 +177,19 @@ export const BarraProgresso: React.FC<BarraProgressoProps> = ({
         aria-label={label || statusText}
       >
         <div
-          className={`h-full rounded-[6px] gp-transition ${barColorClass}`}
+          className={`h-full rounded-full gp-transition ${barColorClass}`}
           style={{ width: `${percentual}%` }}
         />
       </div>
 
       {sublabel && (
-        <p className="text-xs text-gp-lilas-claro/90 font-medium">{sublabel}</p>
+        <p
+          className={`text-xs ${
+            tone === 'escuro' ? 'text-[#D9CBE7]' : 'gp-text-secondary'
+          }`}
+        >
+          {sublabel}
+        </p>
       )}
     </div>
   );

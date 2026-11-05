@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* Paleta Oficial Guardian Prompt (Hackathon TeenTech 2026) */
+  /* Paleta Oficial Guardian Prompt */
   --gp-roxo-escuro: #3F2757;
   --gp-roxo: #9847EE;
   --gp-lilas: #AF81E9;
@@ -11,39 +11,32 @@
   --gp-ciano: #3CC7E8;
   --gp-branco: #FFFFFF;
 
-  /* Cores de Estado (sempre acompanhadas de ícone e texto) */
-  --gp-sucesso: #4ADE80;
-  --gp-atencao: #FACC15;
+  /* Cores de Estado */
+  --gp-sucesso: #22C55E;
+  --gp-atencao: #EAB308;
   --gp-info: #3CC7E8;
   --gp-sugestao: #9847EE;
 
-  /* Raios de borda */
-  --gp-radius-sm: 8px;
-  --gp-radius-md: 12px;
-  --gp-radius-lg: 16px;
-  --gp-radius-xl: 24px;
-
-  /* Sombras suaves com tom roxo */
-  --gp-shadow-sm: 0 4px 14px rgba(63, 39, 87, 0.18);
-  --gp-shadow-md: 0 8px 24px rgba(63, 39, 87, 0.25);
-  --gp-shadow-lg: 0 16px 40px rgba(63, 39, 87, 0.38);
-
-  /* Superfícies adaptáveis para modo escuro (padrão da marca) e claro */
-  --gp-bg-primary: #3F2757;
-  --gp-bg-elevated: rgba(217, 203, 231, 0.08);
-  --gp-bg-card: rgba(255, 255, 255, 0.07);
-  --gp-text-primary: #FFFFFF;
-  --gp-text-secondary: #D9CBE7;
-  --gp-border-subtle: rgba(175, 129, 233, 0.28);
+  /* Superfícies — Modo Claro por padrão (conforme as telas de referência) */
+  --gp-page-bg: #F8F6FB;
+  --gp-surface: #FFFFFF;
+  --gp-surface-subtle: #F2ECF9;
+  --gp-text-main: #3F2757;
+  --gp-text-muted: #66527A;
+  --gp-border: rgba(175, 129, 233, 0.25);
+  --gp-card-shadow: 0 8px 28px rgba(63, 39, 87, 0.07);
+  --gp-ciano-heading: #1AA3C4;
 }
 
-html.light {
-  --gp-bg-primary: #F7F4FA;
-  --gp-bg-elevated: #D9CBE7;
-  --gp-bg-card: #FFFFFF;
-  --gp-text-primary: #3F2757;
-  --gp-text-secondary: #3F2757;
-  --gp-border-subtle: rgba(63, 39, 87, 0.18);
+html.dark {
+  --gp-page-bg: #1D122B;
+  --gp-surface: #2B1B3D;
+  --gp-surface-subtle: #36224C;
+  --gp-text-main: #FFFFFF;
+  --gp-text-muted: #D9CBE7;
+  --gp-border: rgba(175, 129, 233, 0.28);
+  --gp-card-shadow: 0 10px 30px rgba(0, 0, 0, 0.32);
+  --gp-ciano-heading: #3CC7E8;
 }
 
 @layer base {
@@ -53,8 +46,8 @@ html.light {
   }
 
   body {
-    background-color: var(--gp-bg-primary);
-    color: var(--gp-text-primary);
+    background-color: var(--gp-page-bg);
+    color: var(--gp-text-main);
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     line-height: 1.6;
@@ -63,39 +56,68 @@ html.light {
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.18;
   }
+}
+
+/* Utilitários reativos ao tema Claro/Escuro */
+.gp-page-surface {
+  background-color: var(--gp-page-bg);
+  color: var(--gp-text-main);
+}
+
+.gp-card-surface {
+  background-color: var(--gp-surface);
+  color: var(--gp-text-main);
+  border: 1px solid var(--gp-border);
+  box-shadow: var(--gp-card-shadow);
+}
+
+.gp-subtle-surface {
+  background-color: var(--gp-surface-subtle);
+  color: var(--gp-text-main);
+}
+
+.gp-text-primary {
+  color: var(--gp-text-main);
+}
+
+.gp-text-secondary {
+  color: var(--gp-text-muted);
+}
+
+.gp-destaque-adaptive {
+  color: var(--gp-ciano-heading);
 }
 
 /* Escala tipográfica responsiva com clamp() */
 .gp-h1 {
-  font-size: clamp(1.85rem, 3.5vw + 0.5rem, 3.25rem);
+  font-size: clamp(2rem, 3.6vw + 0.5rem, 3.35rem);
   font-weight: 800;
-  line-height: 1.12;
+  line-height: 1.1;
 }
 
 .gp-h2 {
-  font-size: clamp(1.45rem, 2.5vw + 0.4rem, 2.25rem);
+  font-size: clamp(1.5rem, 2.4vw + 0.4rem, 2.35rem);
   font-weight: 800;
-  line-height: 1.18;
+  line-height: 1.16;
 }
 
 .gp-h3 {
-  font-size: clamp(1.15rem, 1.5vw + 0.35rem, 1.5rem);
+  font-size: clamp(1.1rem, 1.2vw + 0.35rem, 1.35rem);
   font-weight: 700;
   line-height: 1.25;
 }
 
 .gp-body-lg {
-  font-size: clamp(1rem, 0.5vw + 0.85rem, 1.175rem);
-  font-weight: 500;
+  font-size: clamp(0.975rem, 0.4vw + 0.85rem, 1.125rem);
+  font-weight: 400;
 }
 
-/* Microinterações suaves respeitando prefers-reduced-motion */
 .gp-transition {
-  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -107,23 +129,4 @@ html.light {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* Scrollbar personalizada com tokens da marca */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #3F2757;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #9847EE;
-  border-radius: 8px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #AF81E9;
 }
