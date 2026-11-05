@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <rect width="100" height="100" rx="22" fill="#3F2757" />
+  <!-- Contorno do balão/escudo com entalhe superior direito e canto inferior direito arredondado -->
+  <path
+    d="M22 16 H78 V25 H86 V68 C86 79.0457 77.0457 88 66 88 H16 V26"
+    stroke="#9847EE"
+    stroke-width="9"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+  />
+  <!-- Olhos quadrados preenchidos -->
+  <rect x="47" y="34" width="9" height="11" rx="1.5" fill="#3CC7E8" />
+  <rect x="61" y="34" width="9" height="11" rx="1.5" fill="#3CC7E8" />
+  <!-- Sorriso curvo com mesma espessura -->
+  <path
+    d="M34 45 C34 59 45 68 59 68"
+    stroke="#D9CBE7"
+    stroke-width="8.5"
+    stroke-linecap="square"
+  />
+</svg>

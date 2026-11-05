@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 100" fill="none">
+  <style>
+    .gp-word {
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      font-weight: 700;
+      font-size: 36px;
+      fill: #D9CBE7;
+      letter-spacing: -0.02em;
+    }
+  </style>
+  <text x="12" y="45" class="gp-word">Guardian</text>
+  <text x="46" y="82" class="gp-word">Prompt</text>
+  <g transform="translate(230, 4)">
+    <!-- Barra superior com entalhe no canto superior direito -->
+    <path
+      d="M14 10 H74 V20 H84 V66 C84 78.1503 74.1503 88 62 88 H8 V22"
+      stroke="#9847EE"
+      stroke-width="9.5"
+      stroke-linecap="square"
+      stroke-linejoin="miter"
+    />
+    <!-- Dois pequenos quadrados preenchidos como olhos -->
+    <rect x="41" y="30" width="9.5" height="12" fill="#9847EE" />
+    <rect x="56" y="30" width="9.5" height="12" fill="#9847EE" />
+    <!-- Curva de sorriso com a mesma espessura do contorno -->
+    <path
+      d="M27 42 C27 57 39 67 55 67"
+      stroke="#9847EE"
+      stroke-width="9"
+      stroke-linecap="square"
+    />
+  </g>
+</svg>
